@@ -2,7 +2,7 @@ import numpy as np
 from random import shuffle
 from random import randint
 
-n_giocatori = 24;
+n_giocatori = 16;
 N_PLAYER_EACH_TABLE = 4
 n_tavoli = n_giocatori / N_PLAYER_EACH_TABLE;
 

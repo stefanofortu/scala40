@@ -2,7 +2,12 @@ import numpy as np
 from random import shuffle
 from random import randint
 
-n_giocatori=20;
+
+print "This is a old file"
+print "Use pychar project instead"
+exit()
+
+n_giocatori=24;
 N_PLAYER_EACH_TABLE=4
 n_tavoli=n_giocatori/N_PLAYER_EACH_TABLE;
 
