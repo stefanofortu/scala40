@@ -2,7 +2,7 @@ import numpy as np
 from random import shuffle
 from random import randint
 
-n_giocatori = 16;
+n_giocatori = 24;
 N_PLAYER_EACH_TABLE = 4
 n_tavoli = n_giocatori / N_PLAYER_EACH_TABLE;
 
@@ -125,7 +125,49 @@ def printCSV():
                         csvString += str(pl+1) + ";"
         print csvString
 
+def printCSVTable():
+    csvString = ""
+    for num in range(0,26):
+        csvString += "-" + ";"
+    print csvString
+    for tab in range(0,n_tavoli):
+        csvString = ""
+        csvString += "-" + ";"
+        csvString += "-" + ";"
+        for turnNum,turn in enumerate(turns):
+            csvString += str(turnNum+ 1) + ";"
+            csvString += str(tab+1) + ";"
+            #csvString += str(tab)+ ";",
+            for pl in turn[tab,:]:
+                csvString +=str(pl+1)+ ";"
+        print csvString;
+        #print turns[t];
+        # csvString = ""
+        # csvString += "-" + ";"
+        # csvString += "-";
+        # for pl in table:
+        #     csvString += str(pl + 1) + ";"
+        # print csvString
+    # for j in range(0, n_tavoli):
+    #     for i in range(0, N_TURNI):
+    #         print turns[i][j],
+    #     print ""
+    #
+    # for turnIndex,turn in enumerate(turns):
+    #     csvString += str(turnIndex + 1) + ";"
+    #     for tabIndex, table in enumerate(turn):
+    #         if p in table:
+    #             csvString += str(tabIndex+1) + ";"
+    #             for pl in table:
+    #                 csvString += str(pl+1) + ";"
+
+
+#print turns
+
 printCSV()
+
+printCSVTable()
+
 #printMetPlayers()
 # printTurn()
 
