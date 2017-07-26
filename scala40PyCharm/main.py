@@ -2,7 +2,11 @@ import numpy as np
 from random import shuffle
 from random import randint
 
-n_giocatori = 24;
+n_giocatori = 48
+# Quando il numero di giocatori e' tale da creare un tavolo da 3,fai finta di nulla.
+# calcola tutto con un giocatore in piu', come al solito, ma non stamparlo
+tavoloZoppo=True;
+#
 N_PLAYER_EACH_TABLE = 4
 n_tavoli = n_giocatori / N_PLAYER_EACH_TABLE;
 
@@ -46,8 +50,6 @@ def assignTable(turn,listPlayer, verbose=False):
                 p = playerToPlace[plIndex];
             else:
                 return False;
-                #plIndex = 0;
-                continue;
             # if the player is not already at the table
             if (not (p in table)):
                 # se non ha incontrato nessuno dei giocatori gia seduti al tavolo
@@ -60,10 +62,9 @@ def assignTable(turn,listPlayer, verbose=False):
                     if plIndex < 4:
                         plIndex += 1;  # =randint(0, len(playerToPlace))
                     else:
-                        return False
                         if verbose:
                             print "Error : plIndex > 4"
-                        exit()
+                        return False
                 else:
                     # aggiungilo al tavolo
                     table[placeAtTable] = p
@@ -96,12 +97,12 @@ def assignTurn(turn=0,verbose=False):
             tableEnemies.remove(p)
             listMetPlayers[p].extend(tableEnemies)
 
-
-assignTurn(0)
+verbose=False
+assignTurn(0,verbose)
 printTurn()
 #printMetPlayers()
 
-assignTurn(1)
+assignTurn(1,verbose)
 printTurn()
 #printMetPlayers()
 assignTurn(2)
@@ -110,19 +111,28 @@ printTurn()
 assignTurn(3)
 printTurn()
 
-
+TOKEN_ZOPPO="-1"
 def printCSV():
     for p in range(0,n_giocatori):
         csvString = ""
-        csvString += str(n_giocatori) + ";"
-        csvString += str(p+1) + ";"
+        if not tavoloZoppo:
+            csvString += str(n_giocatori) + ";"
+        else:
+            csvString += str(n_giocatori-1) + ";"
+        if tavoloZoppo and p+1==n_giocatori:
+            csvString += TOKEN_ZOPPO + ";"
+        else:
+            csvString += str(p + 1) + ";"
         for turnIndex,turn in enumerate(turns):
             csvString += str(turnIndex + 1) + ";"
             for tabIndex, table in enumerate(turn):
                 if p in table:
                     csvString += str(tabIndex+1) + ";"
                     for pl in table:
-                        csvString += str(pl+1) + ";"
+                        if tavoloZoppo and pl+1 == n_giocatori:
+                            csvString += TOKEN_ZOPPO + ";"
+                        else:
+                            csvString += str(pl + 1) + ";"
         print csvString
 
 def printCSVTable():
@@ -130,6 +140,9 @@ def printCSVTable():
     for num in range(0,26):
         csvString += "-" + ";"
     print csvString
+    #se non zoppo, stampa di nuovo
+    if not tavoloZoppo:
+        print csvString
     for tab in range(0,n_tavoli):
         csvString = ""
         csvString += "-" + ";"
@@ -139,7 +152,10 @@ def printCSVTable():
             csvString += str(tab+1) + ";"
             #csvString += str(tab)+ ";",
             for pl in turn[tab,:]:
-                csvString +=str(pl+1)+ ";"
+                if tavoloZoppo and pl + 1 == n_giocatori:
+                    csvString += TOKEN_ZOPPO + ";"
+                else:
+                    csvString += str(pl + 1) + ";"
         print csvString;
         #print turns[t];
         # csvString = ""
@@ -163,16 +179,11 @@ def printCSVTable():
 
 
 #print turns
-
 printCSV()
-
 printCSVTable()
 
 #printMetPlayers()
 # printTurn()
-
 # printMetPlayers()
-
 # table=np.zeros((n_tavoli,N_TURNI*N_PLAYER_EACH_TABLE),dtype=int)
-
 # print table
